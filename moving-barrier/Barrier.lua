@@ -16,7 +16,7 @@ function Barrier:collides(ball)
 
     if self.y > ball.y + ball.height or ball.y > self.y + self.height then
         return false
-    end 
+    end
 
     return true
 end
