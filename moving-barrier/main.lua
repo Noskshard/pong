@@ -188,7 +188,7 @@ function love.update(dt)
         if ball.y <= 0 then
             ball.y = 0
             ball.dy = -ball.dy
-            sounds['wall_hit']:play()
+            sounds['wall_hit']:play()           
         end
 
         -- -4 to account for the ball's size
@@ -228,19 +228,16 @@ function love.update(dt)
             else
                 gameState = 'serve'
                 ball:reset()
-                bar:reset()
             end
         
-        if bar.y <= 0 then
-            bar.y = 0
+        if bar.y < 40 then
+            bar.y = 40
             bar.dy = -bar.dy
-            sounds['wall_hit']:play()
         end
 
-        if bar.y >= VIRTUAL_HEIGHT - 4 then
-            bar.y = VIRTUAL_HEIGHT - 4
+        if bar.y > VIRTUAL_HEIGHT - 44 then
+            bar.y = VIRTUAL_HEIGHT - 44
             bar.dy = -bar.dy
-            sounds['wall_hit']:play()
         end
         end
     end

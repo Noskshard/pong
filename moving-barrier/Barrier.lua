@@ -9,7 +9,7 @@ function Barrier:init(x, y, width, height)
     self.dx = 0
 end
 
-function Barrier:collides(paddle)
+function Barrier:collides(ball)
     if self.x > ball.x + ball.width or ball.x > self.x + self.width then
         return false
     end
@@ -22,7 +22,6 @@ function Barrier:collides(paddle)
 end
 
 function Barrier:update(dt)
-    self.x = VIRTUAL_WIDTH / 2 - 2
     self.y = self.y + self.dy * dt
 end
 
