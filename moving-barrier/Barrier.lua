@@ -5,7 +5,7 @@ function Barrier:init(x, y, width, height)
     self.y = y
     self.width = width
     self.height = height
-    self.dy = 0
+    self.dy = 30
     self.dx = 0
 end
 

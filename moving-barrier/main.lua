@@ -149,7 +149,6 @@ function love.update(dt)
             ball.dx = -math.random(140, 200)
         end
     elseif gameState == 'play' then
-        bar.dy = 30
         if bar:collides(ball) then
             ball.dx = -ball.dx * 1.03
         end
@@ -229,16 +228,19 @@ function love.update(dt)
                 gameState = 'serve'
                 ball:reset()
             end
+        end
 
+        print(bar.y, bar.dy)
         if bar.y < 40 then
             bar.y = 40
             bar.dy = -bar.dy
+            print('Switch', bar.y, bar.dy)
         end
 
         if bar.y > VIRTUAL_HEIGHT - 44 then
             bar.y = VIRTUAL_HEIGHT - 44
             bar.dy = -bar.dy
-        end
+            print('Switch', bar.y, bar.dy)
         end
     end
 
