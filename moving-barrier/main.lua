@@ -39,6 +39,7 @@ require 'Paddle'
 -- but which will mechanically function very differently
 require 'Ball'
 
+require 'Barrier'
 -- size of our actual window
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -97,6 +98,8 @@ function love.load()
     -- place a ball in the middle of the screen
     ball = Ball(VIRTUAL_WIDTH / 2 - 2, VIRTUAL_HEIGHT / 2 - 2, 4, 4)
 
+    bar = Barrier(VIRTUAL_WIDTH / 2 - 2, 40, 5, 40)
+
     -- initialize score variables
     player1Score = 0
     player2Score = 0
@@ -141,11 +144,15 @@ function love.update(dt)
         -- on player who last scored
         ball.dy = math.random(-50, 50)
         if servingPlayer == 1 then
-            ball.dx = math.random(140, 200)
+            ball.dx = math.random(100, 160)
         else
             ball.dx = -math.random(140, 200)
         end
     elseif gameState == 'play' then
+        bar.dy = 30
+        if bar:collides(ball) then
+            ball.dx = -ball.dx * 1.03
+        end
         -- detect ball collision with paddles, reversing dx if true and
         -- slightly increasing it, then altering the dy based on the position
         -- at which it collided, then playing a sound effect
@@ -221,7 +228,20 @@ function love.update(dt)
             else
                 gameState = 'serve'
                 ball:reset()
+                bar:reset()
             end
+        
+        if bar.y <= 0 then
+            bar.y = 0
+            bar.dy = -bar.dy
+            sounds['wall_hit']:play()
+        end
+
+        if bar.y >= VIRTUAL_HEIGHT - 4 then
+            bar.y = VIRTUAL_HEIGHT - 4
+            bar.dy = -bar.dy
+            sounds['wall_hit']:play()
+        end
         end
     end
 
@@ -250,6 +270,7 @@ function love.update(dt)
     -- scale the velocity by dt so movement is framerate-independent
     if gameState == 'play' then
         ball:update(dt)
+        bar:update(dt)
     end
 
     player1:update(dt)
@@ -280,6 +301,7 @@ function love.keypressed(key)
             gameState = 'serve'
 
             ball:reset()
+            bar:reset()
 
             -- reset scores to 0
             player1Score = 0
@@ -334,6 +356,7 @@ function love.draw()
     player1:render()
     player2:render()
     ball:render()
+    bar:render()
 
     -- display FPS for debugging; simply comment out to remove
     displayFPS()
