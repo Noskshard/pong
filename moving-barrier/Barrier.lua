@@ -5,7 +5,7 @@ function Barrier:init(x, y, width, height)
     self.y = y
     self.width = width
     self.height = height
-    self.dy = 0
+    self.dy = 30
     self.dx = 0
 end
 
@@ -16,7 +16,7 @@ function Barrier:collides(ball)
 
     if self.y > ball.y + ball.height or ball.y > self.y + self.height then
         return false
-    end 
+    end
 
     return true
 end
